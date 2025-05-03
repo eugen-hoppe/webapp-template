@@ -5,11 +5,7 @@ from fastapi.templating import Jinja2Templates
 from webapp.settings import BASE_DIR, dev_docs
 
 
-web = FastAPI(
-    title="Web",
-    openapi_prefix="/web",
-    **dev_docs,
-)
+web = FastAPI(title="Web", root_path="/web", **dev_docs)
 
 
 templates = Jinja2Templates(directory=str(BASE_DIR / "apps" / "web" / "templates"))
