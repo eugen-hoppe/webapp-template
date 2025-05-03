@@ -6,15 +6,25 @@
   <title>{% block title %}WebApp{% endblock %}</title>
   <link rel="stylesheet" href="/static/css/bootstrap.min.css">
 </head>
+
 <body class="container">
-  <header class="p-4 bg-gray-800 text-grey">
-    <h1 class="text-xl">WebApp</h1>
+
+  <header class="pt-5 pb-2 border-bottom">
+    <h1>WebApp</h1>
+    <p class="fs-5 text-muted">Sub Header Text</p>
+ 
   </header>
 
+  <main class="pt-5">
     {% block content %}{% endblock %}
+  </main>
 
-  
+  <footer class="pt-4 my-md-5 pt-md-5 border-top">
+    <p class="fs-5 text-muted">Footer</p>
+  </footer>
+
   <script src="/static/js/htmx.min.js"></script>
   <script src="/static/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
