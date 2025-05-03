@@ -1,10 +1,11 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 
 
 
 users_v1 = APIRouter(prefix="/v1")
 
 
-@users_v1.get("/user/{user_id}")
-async def get_user(user_id: int):
-    return f"User {user_id}"
+
+@users_v1.get("/user/")
+async def get_user_by_query(user_id: int, request: Request):
+    return f"<p>User: <strong>{user_id}</strong></p>"
