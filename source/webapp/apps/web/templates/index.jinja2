@@ -1,0 +1,13 @@
+{% extends "base.jinja2" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div
+  hx-get="/api/ping"
+  hx-trigger="load"
+  hx-swap="outerHTML"
+>
+  Load ...
+</div>
+{% endblock %}

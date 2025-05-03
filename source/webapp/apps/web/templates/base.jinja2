@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}WebApp{% endblock %}</title>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+</head>
+<body class="min-h-screen flex flex-col">
+  <header class="p-4 bg-gray-800 text-white">
+    <h1 class="text-xl">WebApp</h1>
+  </header>
+  <main class="flex-1 p-4">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
