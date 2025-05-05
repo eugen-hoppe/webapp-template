@@ -1,14 +1,16 @@
-from webapp.core.db.models import User
-from webapp.core.repositories.user import UserRepository
-from webapp.core.models.user import UserCreate
+from webapp.core.models.user import UserCreate, UserRead
+from webapp.core.db.unit_of_work import UnitOfWork
 
 
 class UserService:
-    def __init__(self, repo: UserRepository):
-        self.repo = repo
+    def __init__(self, uow: UnitOfWork):
+        self.uow = uow
 
-    async def get(self, user_id: int) -> User:
-        return await self.repo.get(user_id)
+    async def get(self, user_id: int) -> UserRead | None:
+        user = await self.uow.user_repo.get(user_id)
+        return UserRead.model_validate(user) if user else None
 
-    async def create(self, data: UserCreate) -> User:
-        return await self.repo.create(data.model_dump())
+    async def create(self, data: UserCreate) -> UserRead:
+        user = await self.uow.user_repo.create(data.model_dump())
+        await self.uow.commit()
+        return UserRead.model_validate(user)
