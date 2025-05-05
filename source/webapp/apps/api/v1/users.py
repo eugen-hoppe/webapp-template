@@ -5,6 +5,7 @@ from webapp.core.repositories.user import UserRepository
 from webapp.dependencies import get_user_repository
 
 
+
 users_v1 = APIRouter(prefix="/v1")
 
 
@@ -15,4 +16,4 @@ async def get_user(user_id: int, crud: UserRepository = Depends(get_user_reposit
 
 @users_v1.post("/user/")
 async def create_user(user: UserCreate, crud: UserRepository = Depends(get_user_repository)):
-    return await crud.create(user.model_dump())
+    return await crud.create(user.db())

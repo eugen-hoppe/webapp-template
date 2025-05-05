@@ -1,8 +1,8 @@
-from collections.abc import Sequence
-from typing import Generic, TypeVar, Type
+from typing import Generic, TypeVar, Type, Callable
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+
 
 
 T = TypeVar("T")
@@ -17,7 +17,7 @@ class BaseRepository(Generic[T]):
     async def get(self, obj_id: int) -> T | None:
         return await self.session.get(self.model, obj_id)
 
-    async def list(self) -> Sequence[T]:
+    async def list(self) -> list[T]:
         result = await self.session.execute(select(self.model))
         return result.scalars().all()
 
@@ -25,7 +25,7 @@ class BaseRepository(Generic[T]):
     async def create(self, data: dict) -> T:
         obj = self.model(**data)
         self.session.add(obj)
-        await self.session.commit()
+        await self.session.flush() 
         await self.session.refresh(obj)
         return obj
 

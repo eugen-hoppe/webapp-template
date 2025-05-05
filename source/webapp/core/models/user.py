@@ -1,12 +1,10 @@
-from pydantic import BaseModel
+from webapp.core.models.generic import GenericBase
 
 
-class UserBase(BaseModel):
+class UserBase(GenericBase):
     username: str
     email: str
 
 
 class UserCreate(UserBase):
     pass
-    # active: bool = False
-    

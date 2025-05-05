@@ -9,10 +9,9 @@ from webapp.core.repositories.user import UserRepository
 
 async def get_session() -> AsyncGenerator[AsyncSession, None]:
     async with AsyncSessionLocal() as session:
-        yield session
+        async with session.begin():
+            yield session
 
 
-def get_user_repository(
-    session: AsyncSession = Depends(get_session),
-) -> UserRepository:
+def get_user_repository(session: AsyncSession = Depends(get_session)) -> UserRepository:
     return UserRepository(session)
