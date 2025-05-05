@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, create_async_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.orm import sessionmaker, declarative_base, DeclarativeBase
 
 
 DATABASE_URL = "sqlite+aiosqlite:///./webapp.db"
@@ -13,4 +13,5 @@ AsyncSessionLocal: sessionmaker[AsyncSession] = sessionmaker(
     bind=engine, class_=AsyncSession, expire_on_commit=False
 )
 
-Base = declarative_base()
+class Base(DeclarativeBase):
+    pass

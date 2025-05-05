@@ -5,6 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from webapp.core.db.engine import AsyncSessionLocal
 from webapp.core.repositories.user import UserRepository
+from webapp.core.services.user import UserService
 
 
 async def get_session() -> AsyncGenerator[AsyncSession, None]:
@@ -13,5 +14,5 @@ async def get_session() -> AsyncGenerator[AsyncSession, None]:
             yield session
 
 
-def get_user_repository(session: AsyncSession = Depends(get_session)) -> UserRepository:
-    return UserRepository(session)
+def get_user_service(session: AsyncSession = Depends(get_session)) -> UserService:
+    return UserService(UserRepository(session))

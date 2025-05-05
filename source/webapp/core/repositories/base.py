@@ -1,11 +1,12 @@
-from typing import Generic, TypeVar, Type, Callable
+from typing import Generic, TypeVar, Type
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from webapp.core.db.engine import Base
 
 
-T = TypeVar("T")
+T = TypeVar("T", bound=Base)
 
 
 class BaseRepository(Generic[T]):
@@ -25,19 +26,16 @@ class BaseRepository(Generic[T]):
     async def create(self, data: dict) -> T:
         obj = self.model(**data)
         self.session.add(obj)
-        await self.session.flush() 
-        await self.session.refresh(obj)
+        await self.session.flush()
         return obj
 
     # ---------- UPDATE ----------
     async def update(self, obj: T, data: dict) -> T:
         for k, v in data.items():
             setattr(obj, k, v)
-        await self.session.commit()
-        await self.session.refresh(obj)
+        await self.session.flush()
         return obj
 
     # ---------- DELETE ----------
     async def delete(self, obj: T) -> None:
         await self.session.delete(obj)
-        await self.session.commit()
