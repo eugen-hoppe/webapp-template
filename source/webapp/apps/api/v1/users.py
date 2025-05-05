@@ -1,23 +1,18 @@
-from fastapi import APIRouter, Request, Depends
+from fastapi import APIRouter, Depends
 
-
-from webapp.core.crud.users import UserCRUD
+from webapp.core.models.user import UserCreate
+from webapp.core.repositories.user import UserRepository
+from webapp.dependencies import get_user_repository
 
 
 users_v1 = APIRouter(prefix="/v1")
 
 
-
-@users_v1.get("/user/")
-async def get_user_by_query(user_id: int, request: Request):
-    return f"<p>User: <strong>{user_id}</strong></p>"
-
-
 @users_v1.get("/user/{user_id}")
-async def get(user_id: str, user_crud: UserCRUD = Depends(UserCRUD)):
-    return await user_crud.get_by_id(user_id=user_id)
+async def get_user(user_id: int, crud: UserRepository = Depends(get_user_repository)):
+    return await crud.get(user_id)
 
 
 @users_v1.post("/user/")
-async def create(user: dict[str, str], user_crud: UserCRUD = Depends(UserCRUD)):
-    await user_crud.create(user)
+async def create_user(user: UserCreate, crud: UserRepository = Depends(get_user_repository)):
+    return await crud.create(user.model_dump())
