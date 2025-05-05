@@ -12,5 +12,4 @@ class UserService:
 
     async def create(self, data: UserCreate) -> UserRead:
         user = await self.uow.user_repo.create(data.model_dump())
-        await self.uow.commit()
         return UserRead.model_validate(user)

@@ -44,5 +44,10 @@ class UnitOfWork(AbstractUnitOfWork):
         await self.session.rollback()
 
     async def __aexit__(self, exc_type, exc, tb):
-        await super().__aexit__(exc_type, exc, tb)
-        await self.session.close()
+        try:
+            if exc_type:
+                await self.rollback()
+            else:
+                await self.commit()
+        finally:
+            await self.session.close()
