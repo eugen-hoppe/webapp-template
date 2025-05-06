@@ -1,0 +1,23 @@
+<form
+  {% if user %}
+    hx-put="/web/users/{{ user.id }}"
+    hx-target="#user-{{ user.id }}"
+    hx-swap="outerHTML"
+  {% else %}
+    hx-post="/web/users"
+    hx-target="#user-tbody"
+    hx-swap="beforeend"
+  {% endif %}
+>
+  <div class="mb-3">
+    <label class="form-label">Username</label>
+    <input name="username" class="form-control"
+           value="{{ user.username if user }}">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Email</label>
+    <input name="email" type="email" class="form-control"
+           value="{{ user.email if user }}">
+  </div>
+  <button class="btn btn-primary">Save</button>
+</form>

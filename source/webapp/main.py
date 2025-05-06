@@ -15,4 +15,4 @@ async def _init_db() -> None:
 
 app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 app.mount("/api", api)
-app.mount("/", web)
+app.mount("/web", web)
