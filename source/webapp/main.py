@@ -8,10 +8,12 @@ from webapp.settings import dev_docs, BASE_DIR
 
 app = FastAPI(title="WebApp", **dev_docs)
 
+
 @app.on_event("startup")
 async def _init_db() -> None:
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+
 
 app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 app.mount("/api", api)

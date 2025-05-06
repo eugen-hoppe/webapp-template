@@ -24,4 +24,3 @@ class User(Base):
         index=True,
         nullable=False,
     )
-
