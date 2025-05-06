@@ -1,10 +1,8 @@
-from typing import Generic, TypeVar, Type, Iterable
+from typing import Generic, Iterable, Type, TypeVar
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from webapp.core.db.engine import Base
-
 
 T = TypeVar("T", bound=Base)
 

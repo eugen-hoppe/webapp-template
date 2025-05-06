@@ -1,13 +1,11 @@
-from fastapi import FastAPI, Request, Depends, status, Form
+from fastapi import Depends, FastAPI, Form, Request, status
+from fastapi.exceptions import HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from fastapi.exceptions import HTTPException
-
-from webapp.dependencies import get_user_service
-from webapp.core.services.user import UserService
-from webapp.settings import BASE_DIR, dev_docs
 from webapp.core.models.user import UserCreate
-
+from webapp.core.services.user import UserService
+from webapp.dependencies import get_user_service
+from webapp.settings import BASE_DIR, dev_docs
 
 web = FastAPI(title="Web", root_path="/web", **dev_docs)
 templates = Jinja2Templates(directory=str(BASE_DIR / "apps" / "web" / "templates"))

@@ -1,9 +1,7 @@
 from fastapi import APIRouter, Depends, status
-
 from webapp.core.models.user import UserCreate, UserRead
 from webapp.core.services.user import UserService
 from webapp.dependencies import get_user_service
-
 
 users_v1 = APIRouter(prefix="/v1")
 

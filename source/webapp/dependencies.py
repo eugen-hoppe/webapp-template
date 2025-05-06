@@ -1,7 +1,6 @@
 from typing import AsyncGenerator
 
 from fastapi import Depends
-
 from webapp.core.db.engine import AsyncSessionLocal
 from webapp.core.db.unit_of_work import UnitOfWork
 from webapp.core.services.user import UserService

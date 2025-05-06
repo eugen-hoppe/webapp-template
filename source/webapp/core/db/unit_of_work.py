@@ -1,7 +1,6 @@
 from abc import ABCMeta, abstractmethod
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
-
 from webapp.core.repositories.user import UserRepository
 
 

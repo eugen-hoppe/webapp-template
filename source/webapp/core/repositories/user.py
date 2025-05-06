@@ -1,6 +1,5 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from webapp.core.db.models import User
 from webapp.core.repositories.base import BaseRepository
 

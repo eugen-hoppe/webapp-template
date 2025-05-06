@@ -1,12 +1,10 @@
 import os
 import sys
-
 from pathlib import Path
 
 import uvicorn
 
 from source.tests.development.local import check_settings_for_init_exclusion
-
 
 SOURCE = Path(__file__).resolve().parent / "source"
 

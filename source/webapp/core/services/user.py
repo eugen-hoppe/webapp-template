@@ -1,5 +1,5 @@
-from webapp.core.models.user import UserCreate, UserRead
 from webapp.core.db.unit_of_work import UnitOfWork
+from webapp.core.models.user import UserCreate, UserRead
 
 
 class UserService:

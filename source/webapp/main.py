@@ -1,10 +1,9 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-
 from webapp.apps.api.app import api
 from webapp.apps.web.app import web
-from webapp.core.db.engine import engine, Base
-from webapp.settings import dev_docs, BASE_DIR
+from webapp.core.db.engine import Base, engine
+from webapp.settings import BASE_DIR, dev_docs
 
 app = FastAPI(title="WebApp", **dev_docs)
 
