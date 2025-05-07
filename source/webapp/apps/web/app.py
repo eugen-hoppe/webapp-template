@@ -3,8 +3,8 @@ from fastapi.exceptions import HTTPException
 from fastapi.responses import HTMLResponse
 from webapp.core.models.user import UserCreate
 from webapp.core.services.base import HTMX
-from webapp.core.services.user import UserService
-from webapp.dependencies import get_user_service
+from webapp.core.services.user import UserService, UserViewService
+from webapp.dependencies import get_user_service, get_user_view_service
 from webapp.settings import dev_docs
 
 web = FastAPI(title="Web", root_path="/web", **dev_docs)
@@ -14,10 +14,10 @@ web = FastAPI(title="Web", root_path="/web", **dev_docs)
 async def users_table_fragment(
     request: Request,
     user_service: UserService = Depends(get_user_service),
+    user_view: UserViewService = Depends(get_user_view_service),
 ):
     users = await user_service.uow.user_repo.list()
-    user_service.htmx.context = {"request": request, "users": users}  # .           HTMX
-    return user_service.htmx.render("_user_table")
+    return user_view.render_user_table(request, users)
 
 
 @web.get("/users/fragment/form", response_class=HTMLResponse)
@@ -25,10 +25,10 @@ async def user_form_fragment(
     request: Request,
     user_id: int | None = None,
     user_service: UserService = Depends(get_user_service),
+    user_view: UserViewService = Depends(get_user_view_service),
 ):
     user = await user_service.get(user_id) if user_id else None
-    user_service.htmx.context = {"request": request, "user": user}  # .             HTMX
-    return user_service.htmx.render("_user_form")
+    return user_view.render_user_form(request, user)
 
 
 @web.get("/users", response_class=HTMLResponse)
@@ -42,10 +42,10 @@ async def create_user_html(
     username: str = Form(...),
     email: str = Form(...),
     user_service: UserService = Depends(get_user_service),
+    user_view: UserViewService = Depends(get_user_view_service),
 ):
     user = await user_service.create(UserCreate(username=username, email=email))
-    user_service.htmx.context = {"request": request, "user": user}  # .             HTMX
-    return user_service.htmx.render("_user_row")
+    return user_view.render_user_row(request, user)
 
 
 @web.put("/users/{user_id}", response_class=HTMLResponse)
@@ -55,6 +55,7 @@ async def update_user_html(
     username: str = Form(...),
     email: str = Form(...),
     user_service: UserService = Depends(get_user_service),
+    user_view: UserViewService = Depends(get_user_view_service),
 ):
     existing = await user_service.uow.user_repo.get(user_id)
     if existing is None:
@@ -64,8 +65,7 @@ async def update_user_html(
         {"username": username, "email": email},
     )
     updated = await user_service.uow.user_repo.get(user_id)
-    user_service.htmx.context = {"request": request, "user": updated}  # .          HTMX
-    return user_service.htmx.render("_user_row")
+    return user_view.render_user_row(request, updated)
 
 
 @web.delete("/users/{user_id}", status_code=status.HTTP_204_NO_CONTENT)

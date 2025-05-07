@@ -11,7 +11,6 @@ from webapp.settings import TEMPLATES_DIR
 class Service:
     def __init__(self, uow: UnitOfWork):
         self.uow = uow
-        self.htmx = HTMX()  # Create ViewService e.g. UserViewService
 
 
 @dataclass
