@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Table{% endblock %}
+{% block h1_title %}
+  <h1>Tables</h1>
+  <p class="fs-5 text-muted">User Table</p>
+{% endblock %}
 
 {% block content %}
 {% from "macros/table.html" import render_table %}
