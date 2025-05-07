@@ -89,10 +89,7 @@ async def generic_table(
     entity_name: str,
     uow: UnitOfWork = Depends(get_uow),
 ):
-    repo_map: dict[str, BaseRepository] = {  # TODO Registration @ UoW
-        "user": uow.user_repo,
-    }
-    repo = repo_map.get(entity_name)
+    repo = uow.get_repository(entity_name)
     if not repo:
         raise HTTPException(status_code=404, detail="Entity not found")
 
