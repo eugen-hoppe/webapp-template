@@ -15,7 +15,7 @@ class UserServiceCRUD(Service):
         return UserRead.model_validate(user)
 
 
-class UserServiceVIEW:
+class UserServiceHTMX:
     def __init__(self):
         self.htmx = HTMX()
 
@@ -43,4 +43,4 @@ class UserServiceVIEW:
 class UserFacade:
     def __init__(self, uow: UnitOfWork):
         self.crud = UserServiceCRUD(uow)
-        self.view = UserServiceVIEW()
+        self.view = UserServiceHTMX()
