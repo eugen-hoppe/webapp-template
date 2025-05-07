@@ -33,4 +33,3 @@ class HTMX:
             media_type=self.media_type,
             background=self.background,
         )
-    

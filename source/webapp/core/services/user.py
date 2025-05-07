@@ -1,5 +1,6 @@
 from fastapi import Request
 from fastapi.responses import HTMLResponse
+from webapp.apps.web.forms.user import UserForm
 from webapp.core.db.unit_of_work import UnitOfWork
 from webapp.core.models.user import UserCreate, UserRead
 from webapp.core.services.base import HTMX, Service
@@ -26,11 +27,9 @@ class UserServiceHTMX:
             "_user_table", context={"request": request, "users": users}
         )
 
-    def render_user_form(
-        self, request: Request, user: UserRead | None = None
-    ) -> HTMLResponse:
+    def render_user_form(self, request: Request, *, form: UserForm, user=None):
         return self.htmx.render(
-            "_user_form", context={"request": request, "user": user}
+            "_user_form", {"request": request, "form": form, "user": user}
         )
 
     def render_user_row(self, request: Request, user: UserRead) -> HTMLResponse:

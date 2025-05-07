@@ -1,6 +1,7 @@
 from fastapi import Depends, FastAPI, Form, Request, status
 from fastapi.exceptions import HTTPException
 from fastapi.responses import HTMLResponse
+from webapp.apps.web.forms.user import UserForm
 from webapp.core.models.user import UserCreate
 from webapp.core.services.base import HTMX
 from webapp.core.services.user import UserFacade
@@ -26,7 +27,8 @@ async def user_form_fragment(
     user_fx: UserFacade = Depends(get_user_facade),
 ):
     user = await user_fx.crud.get(user_id) if user_id else None
-    return user_fx.view.render_user_form(request, user)
+    form = UserForm(request, obj=user)
+    return user_fx.view.render_user_form(request, form=form, user=user)
 
 
 @web.get("/users", response_class=HTMLResponse)
@@ -36,12 +38,12 @@ async def users_page(request: Request):
 
 @web.post("/users", response_class=HTMLResponse, status_code=status.HTTP_201_CREATED)
 async def create_user_html(
-    request: Request,
-    username: str = Form(...),
-    email: str = Form(...),
-    user_fx: UserFacade = Depends(get_user_facade),
+    request: Request, user_fx: UserFacade = Depends(get_user_facade)
 ):
-    user = await user_fx.crud.create(UserCreate(username=username, email=email))
+    form = await UserForm.from_formdata(request)
+    if not await form.validate_on_submit():
+        return user_fx.view.render_user_form(request, form=form)
+    user = await user_fx.crud.create(UserCreate(**form.data))
     return user_fx.view.render_user_row(request, user)
 
 
@@ -49,17 +51,20 @@ async def create_user_html(
 async def update_user_html(
     request: Request,
     user_id: int,
-    username: str = Form(...),
-    email: str = Form(...),
     user_fx: UserFacade = Depends(get_user_facade),
 ):
     existing = await user_fx.crud.uow.user_repo.get(user_id)
     if existing is None:
         raise HTTPException(status_code=404)
+
+    form = await UserForm.from_formdata(request, obj=existing)
+    if not await form.validate_on_submit():
+        return user_fx.view.render_user_form(request, form=form, user=existing)
+
     await user_fx.crud.uow.user_repo.update(
-        existing,
-        {"username": username, "email": email},
+        existing, {"username": form.username.data, "email": form.email.data}
     )
+
     updated = await user_fx.crud.uow.user_repo.get(user_id)
     return user_fx.view.render_user_row(request, updated)
 
