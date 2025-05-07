@@ -41,8 +41,10 @@ class UserServiceHTMX:
         return self.htmx.render(
             "_user_row",
             context={
-                "request": request, "user": user, "cols": ["id","username","email"]
-            }
+                "request": request,
+                "user": user,
+                "cols": ["id", "username", "email"],
+            },
         )
 
     def render_user_page(self, request: Request) -> HTMLResponse:

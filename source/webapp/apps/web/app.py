@@ -1,12 +1,13 @@
-from fastapi import Depends, FastAPI, Form, Request, status
+from fastapi import Depends, FastAPI, Request, status
 from fastapi.exceptions import HTTPException
 from fastapi.responses import HTMLResponse
 from webapp.apps.web.forms.user import UserForm
+from webapp.core.db.unit_of_work import UnitOfWork
 from webapp.core.models.user import UserCreate
+from webapp.core.repositories.base import BaseRepository
 from webapp.core.services.base import HTMX
 from webapp.core.services.user import UserFacade
-from webapp.core.repositories.base import BaseRepository
-from webapp.dependencies import get_user_facade, get_uow, UnitOfWork
+from webapp.dependencies import get_uow, get_user_facade
 from webapp.settings import dev_docs
 
 web = FastAPI(title="Web", root_path="/web", **dev_docs)
@@ -82,12 +83,11 @@ async def delete_user_html(
     return ""
 
 
-
 @web.get("/table/{entity_name}", response_class=HTMLResponse)
 async def generic_table(
     request: Request,
     entity_name: str,
-    uow: UnitOfWork =Depends(get_uow),
+    uow: UnitOfWork = Depends(get_uow),
 ):
     repo_map: dict[str, BaseRepository] = {  # TODO Registration @ UoW
         "user": uow.user_repo,
@@ -100,7 +100,7 @@ async def generic_table(
     if not repo.tb_columns():
         raise HTTPException(status_code=400)
     return HTMX().render(
-        "generic/table_wrapper", 
+        "generic/table_wrapper",
         context={
             "request": request,
             "items": items,

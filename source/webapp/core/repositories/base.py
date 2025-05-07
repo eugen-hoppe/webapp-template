@@ -20,7 +20,6 @@ class BaseRepository(Generic[T]):
         result = await self.session.execute(select(self.model))
         return result.scalars().all()
 
-    # ---------- CREATE ----------
     async def create(self, data: dict, *, refresh: bool = True) -> T:
         obj = self.model(**data)
         self.session.add(obj)
@@ -29,7 +28,6 @@ class BaseRepository(Generic[T]):
             await self.session.refresh(obj)
         return obj
 
-    # ---------- UPDATE ----------
     async def update(
         self,
         obj: T,
@@ -51,12 +49,10 @@ class BaseRepository(Generic[T]):
                 await self.session.refresh(obj)
         return obj
 
-    # ---------- DELETE ----------
     async def delete(self, obj: T, *, flush: bool = True) -> None:
         await self.session.delete(obj)
         if flush:
             await self.session.flush()
-
 
     def tb_columns(self) -> "list[str]":
         return [col.key for col in self.model.__table__.columns]
