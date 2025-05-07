@@ -19,7 +19,7 @@ class HTMX:
     headers: Mapping[str, str] | None = None
     media_type: str | None = None
     background: BackgroundTasks | None = None
-    extension: str = "jinja2"
+    extension: str = "html"
     templates: Jinja2Templates = field(
         default_factory=lambda: Jinja2Templates(directory=TEMPLATES_DIR)
     )
