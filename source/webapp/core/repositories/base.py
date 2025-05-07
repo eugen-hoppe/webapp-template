@@ -16,7 +16,7 @@ class BaseRepository(Generic[T]):
     async def get(self, obj_id: int) -> T | None:
         return await self.session.get(self.model, obj_id)
 
-    async def list(self) -> list[T]:
+    async def get_list(self) -> list[T]:
         result = await self.session.execute(select(self.model))
         return result.scalars().all()
 
@@ -56,3 +56,7 @@ class BaseRepository(Generic[T]):
         await self.session.delete(obj)
         if flush:
             await self.session.flush()
+
+
+    def tb_columns(self) -> "list[str]":
+        return [col.key for col in self.model.__table__.columns]
