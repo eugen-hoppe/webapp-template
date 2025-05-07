@@ -6,6 +6,15 @@
     hx-swap="innerHTML"
     style="cursor:pointer">
   {{ tf.tb_fields(user, fields) }}
+  <td>
+    <button class="btn btn-danger btn-sm"
+            hx-delete="/web/users/{{ user.id }}"
+            hx-target="#user-{{ user.id }}"
+            hx-swap="outerHTML"
+            hx-no-bubble>
+      X
+    </button>
+  </td>
 </tr>
 {%- endmacro %}
 {{ user_row(user, cols) }}

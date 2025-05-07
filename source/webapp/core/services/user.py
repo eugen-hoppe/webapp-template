@@ -15,6 +15,12 @@ class UserServiceCRUD(Service):
         user = await self.uow.user_repo.create(data.model_dump())
         return UserRead.model_validate(user)
 
+    async def delete(self, user_id: int) -> None:
+        user = await self.uow.user_repo.get(user_id)
+        if user is None:
+            raise ValueError("User not found")
+        await self.uow.user_repo.delete(user)
+    
 
 class UserServiceHTMX:
     def __init__(self):

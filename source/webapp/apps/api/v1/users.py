@@ -28,3 +28,14 @@ async def create_user(
     user_fx: UserFacade = Depends(get_user_facade),
 ):
     return await user_fx.create(user)
+
+
+@users_v1.delete(
+    "/user/{user_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+async def delete_user(
+    user_id: int,
+    user_fx: UserFacade = Depends(get_user_facade),
+):
+    await user_fx.crud.delete(user_id)

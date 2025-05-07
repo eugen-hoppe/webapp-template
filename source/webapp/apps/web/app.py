@@ -71,16 +71,20 @@ async def update_user_html(
     return user_fx.view.render_user_row(request, updated)
 
 
-@web.delete("/users/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+@web.delete("/users/{user_id}", response_class=HTMLResponse)
 async def delete_user_html(
+    request: Request,
     user_id: int,
     user_fx: UserFacade = Depends(get_user_facade),
 ):
     orm_user = await user_fx.crud.uow.user_repo.get(user_id)
     if orm_user is None:
         raise HTTPException(status_code=404)
+
     await user_fx.crud.uow.user_repo.delete(orm_user)
-    return ""
+
+    html_oob = '<div id="user-form-panel" hx-swap-oob="true"></div>'
+    return HTMLResponse(html_oob)
 
 
 @web.get("/table/{entity_name}", response_class=HTMLResponse)
