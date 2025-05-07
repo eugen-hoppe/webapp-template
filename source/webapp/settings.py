@@ -2,6 +2,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
 DEV = True  # .env default=False
+TEMPLATES_DIR = str(BASE_DIR / "apps" / "web" / "templates")
 
 
 dev_docs = {
