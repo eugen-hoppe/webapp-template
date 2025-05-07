@@ -1,18 +1,10 @@
-from pydantic import BaseModel, ConfigDict
+from webapp.core.models.base import BaseORM
 
 
-class UserBase(BaseModel):
+class UserCreate(BaseORM):
     username: str
     email: str
 
-    model_config = ConfigDict(from_attributes=True)
 
-
-class UserCreate(UserBase):
-    pass
-
-
-class UserRead(UserBase):
+class UserRead(UserCreate):
     id: int
-    username: str
-    email: str
