@@ -2,16 +2,12 @@ from fastapi import Depends, FastAPI, Form, Request, status
 from fastapi.exceptions import HTTPException
 from fastapi.responses import HTMLResponse
 from webapp.core.models.user import UserCreate
-from webapp.core.services.user import UserService
 from webapp.core.services.base import HTMX
+from webapp.core.services.user import UserService
 from webapp.dependencies import get_user_service
 from webapp.settings import dev_docs
 
-
-
-
 web = FastAPI(title="Web", root_path="/web", **dev_docs)
-
 
 
 @web.get("/users/fragment/table", response_class=HTMLResponse)

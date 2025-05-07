@@ -4,15 +4,14 @@ from typing import Any, Mapping
 from fastapi import BackgroundTasks
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-
-from webapp.settings import TEMPLATES_DIR
 from webapp.core.db.unit_of_work import UnitOfWork
+from webapp.settings import TEMPLATES_DIR
 
 
 class Service:
     def __init__(self, uow: UnitOfWork):
         self.uow = uow
-        self.htmx = HTMX()
+        self.htmx = HTMX()  # Create ViewService e.g. UserViewService
 
 
 @dataclass
