@@ -1,10 +1,13 @@
-{% for loc in locations %}
-<button type="button"
-        class="list-group-item list-group-item-action"
-        hx-on="click:
-               document.getElementById('location-id').value='{{ loc.id }}';
-               document.getElementById('location-search').value='{{ loc.city }} ({{ loc.post_code }})';
-               document.getElementById('location-suggestions').innerHTML='';">
-  {{ loc.city }} ({{ loc.post_code }})
-</button>
-{% endfor %}
+<ul class="list-group">
+  {% for loc in locations %}
+    <li
+      class="list-group-item list-group-item-action"
+      data-loc-id="{{ loc.id }}"
+    >
+      {{ loc.post_code }} {{ loc.city }}
+    </li>
+  {% endfor %}
+  {% if not locations %}
+    <li class="list-group-item disabled">Keine Treffer</li>
+  {% endif %}
+</ul>
