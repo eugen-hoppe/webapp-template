@@ -1,7 +1,9 @@
-<tr id="user-{{ user.id }}">
+<tr id="user-{{ user.id }}"
+    hx-get="/web/users/fragment/form?user_id={{ user.id }}"
+    hx-target="#user-form-panel"
+    hx-swap="innerHTML"
+    style="cursor:pointer">
   <td>{{ user.id }}</td>
   <td>{{ user.username }}</td>
   <td>{{ user.email }}</td>
-  <td class="text-end">
-  </td>
 </tr>

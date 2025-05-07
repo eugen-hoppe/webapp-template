@@ -4,15 +4,7 @@
   </thead>
   <tbody id="user-tbody">
   {% for user in users %}
-    <tr id="user-{{ user.id }}"
-        hx-get="/web/users/fragment/form?user_id={{ user.id }}"
-        hx-target="#user-form-panel"
-        hx-swap="innerHTML"
-        style="cursor:pointer">
-      <td>{{ user.id }}</td>
-      <td>{{ user.username }}</td>
-      <td>{{ user.email }}</td>
-    </tr>
+    {% include "_user_row.jinja2" %}
   {% endfor %}
   </tbody>
 </table>
