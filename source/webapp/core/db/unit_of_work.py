@@ -3,12 +3,12 @@ from abc import ABCMeta, abstractmethod
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from webapp.core.repositories.base import BaseRepository
 from webapp.core.repositories.user import UserRepository
+from webapp.core.repositories.location import LocationRepository
 
 
 class AbstractUnitOfWork(metaclass=ABCMeta):
-    # ... TODO write tests for check repository registration
     user_repo: UserRepository
-    # ...
+    location_repo = LocationRepository
 
     async def __aenter__(self):
         return self
@@ -32,9 +32,8 @@ class UnitOfWork(AbstractUnitOfWork):
         self.session = self._session_factory()
         await self.session.begin()
 
-        # ...    
         self.user_repo = UserRepository(self.session)
-        # ...
+        self.location_repo = LocationRepository(self.session)
 
         return self
 

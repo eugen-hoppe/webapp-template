@@ -24,5 +24,26 @@
     {% endif %}
   </div>
 
+<div class="mb-3 position-relative">
+  <label class="form-label">{{ form.location_search.label.text }}</label>
+
+  {{ form.location_search(
+       id="location-search",
+       class_="form-control",
+       autocomplete="off",
+       **{
+         "hx-get": "/web/locations/fragment/suggest",
+         "hx-trigger": "keyup changed delay:300ms",
+         "hx-target": "#location-suggestions"
+       }
+  ) }}
+
+  {{ form.location_id(id="location-id") }}
+
+  <div id="location-suggestions"
+       class="list-group position-absolute w-100"
+       style="z-index:1000"></div>
+</div>
+
   <button class="btn btn-primary">Save</button>
 </form>

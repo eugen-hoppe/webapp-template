@@ -1,13 +1,13 @@
-from fastapi import Depends, FastAPI, Request, status
+from fastapi import Depends, FastAPI, Request, status, Query
 from fastapi.exceptions import HTTPException
 from fastapi.responses import HTMLResponse
 from webapp.apps.web.forms.user import UserForm
 from webapp.core.db.unit_of_work import UnitOfWork
 from webapp.core.models.user import UserCreate
-from webapp.core.repositories.base import BaseRepository
 from webapp.core.services.base import HTMX
 from webapp.core.services.user import UserFacade
-from webapp.dependencies import get_uow, get_user_facade
+from webapp.core.services.location import LocationFacade
+from webapp.dependencies import get_uow, get_user_facade, get_location_facade
 from webapp.settings import dev_docs
 
 web = FastAPI(title="Web", root_path="/web", **dev_docs)
@@ -64,7 +64,12 @@ async def update_user_html(
         return user_fx.view.render_user_form(request, form=form, user=existing)
 
     await user_fx.crud.uow.user_repo.update(
-        existing, {"username": form.username.data, "email": form.email.data}
+        existing,
+        {
+            "username": form.username.data,
+            "email": form.email.data,
+            "location_id": int(form.location_id.data) if form.location_id.data else None,
+        },
     )
 
     updated = await user_fx.crud.uow.user_repo.get(user_id)
@@ -108,3 +113,13 @@ async def generic_table(
             "columns": repo.tb_columns(),
         },
     )
+
+
+@web.get("/locations/fragment/suggest", response_class=HTMLResponse)
+async def location_suggestions(
+    request: Request,
+    q: str = Query(..., min_length=2, alias="location_search"),
+    loc_fx: LocationFacade = Depends(get_location_facade),
+):
+    results = await loc_fx.crud.search(q)
+    return loc_fx.view.render_location_suggestions(request, results)
