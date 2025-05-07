@@ -1,10 +1,11 @@
-{% import "atoms/tb_field.html" as tb_field %}
+{% import "mols/tb_fields.html" as tf %}
+{% macro user_row(user, fields) -%}
 <tr id="user-{{ user.id }}"
     hx-get="/web/users/fragment/form?user_id={{ user.id }}"
     hx-target="#user-form-panel"
     hx-swap="innerHTML"
     style="cursor:pointer">
-  {{ tb_field.value(user.id) }}
-  {{ tb_field.value(user.username) }}
-  {{ tb_field.value(user.email) }}
+  {{ tf.tb_fields(user, fields) }}
 </tr>
+{%- endmacro %}
+{{ user_row(user, cols) }}

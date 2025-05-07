@@ -24,7 +24,12 @@ class UserServiceHTMX:
         self, request: Request, users: list[UserRead]
     ) -> HTMLResponse:
         return self.htmx.render(
-            "_user_table", context={"request": request, "users": users}
+            "_user_table",
+            context={
+                "request": request,
+                "users": users,
+                "cols": ["id", "username", "email"],
+            },
         )
 
     def render_user_form(self, request: Request, *, form: UserForm, user=None):
@@ -33,7 +38,12 @@ class UserServiceHTMX:
         )
 
     def render_user_row(self, request: Request, user: UserRead) -> HTMLResponse:
-        return self.htmx.render("_user_row", context={"request": request, "user": user})
+        return self.htmx.render(
+            "_user_row",
+            context={
+                "request": request, "user": user, "cols": ["id","username","email"]
+            }
+        )
 
     def render_user_page(self, request: Request) -> HTMLResponse:
         return HTMX().render("users", context={"request": request})
