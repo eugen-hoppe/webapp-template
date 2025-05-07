@@ -4,7 +4,11 @@
       {% for c in cols %}
         <th>{{ c|capitalize }}</th>
       {% endfor %}
-      <th>Actions</th>
+      <th>
+        <button class="btn btn-success btn-sm" hx-get="/web/users/fragment/form" hx-target="#user-form-panel" hx-swap="innerHTML">
+          +
+        </button>
+      </th>
     </tr>
   </thead>
   <tbody id="user-tbody">
