@@ -3,7 +3,6 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from webapp.core.db.engine import Base
 
 
-
 class Location(Base):
     __tablename__ = "locations"
 
@@ -39,4 +38,5 @@ class User(Base):
         nullable=True,
     )
     location: Mapped[Location | None] = relationship(
-        back_populates="users", lazy="selectin")
+        back_populates="users", lazy="selectin"
+    )

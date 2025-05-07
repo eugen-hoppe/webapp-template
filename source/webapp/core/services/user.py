@@ -20,7 +20,7 @@ class UserServiceCRUD(Service):
         if user is None:
             raise ValueError("User not found")
         await self.uow.user_repo.delete(user)
-    
+
 
 class UserServiceHTMX:
     def __init__(self):

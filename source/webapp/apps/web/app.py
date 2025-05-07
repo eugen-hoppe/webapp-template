@@ -68,7 +68,9 @@ async def update_user_html(
         {
             "username": form.username.data,
             "email": form.email.data,
-            "location_id": int(form.location_id.data) if form.location_id.data else None,
+            "location_id": (
+                int(form.location_id.data) if form.location_id.data else None
+            ),
         },
     )
 

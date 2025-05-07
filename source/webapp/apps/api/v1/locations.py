@@ -5,6 +5,7 @@ from webapp.dependencies import get_location_facade
 
 locations_v1 = APIRouter(prefix="/v1")
 
+
 @locations_v1.get(
     "/locations",
     response_model=list[LocationRead],

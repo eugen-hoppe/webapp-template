@@ -52,6 +52,6 @@ class UnitOfWork(AbstractUnitOfWork):
     async def rollback(self) -> None:
         if self.session.in_transaction():
             await self.session.rollback()
-    
+
     def get_repository(self, repository_name: str) -> BaseRepository | None:
         return getattr(self, f"{repository_name}_repo", None)
