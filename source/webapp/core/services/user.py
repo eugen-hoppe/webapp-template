@@ -1,5 +1,6 @@
 from fastapi import Request
 from fastapi.responses import HTMLResponse
+from webapp.core.db.unit_of_work import UnitOfWork
 from webapp.core.models.user import UserCreate, UserRead
 from webapp.core.services.base import HTMX, Service
 
@@ -37,3 +38,9 @@ class UserViewService:
 
     def render_user_page(self, request: Request) -> HTMLResponse:
         return HTMX().render("users", context={"request": request})
+
+
+class UserFacade:
+    def __init__(self, uow: UnitOfWork):
+        self.crud = UserService(uow)
+        self.view = UserViewService()

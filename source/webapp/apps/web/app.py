@@ -3,8 +3,8 @@ from fastapi.exceptions import HTTPException
 from fastapi.responses import HTMLResponse
 from webapp.core.models.user import UserCreate
 from webapp.core.services.base import HTMX
-from webapp.core.services.user import UserService, UserViewService
-from webapp.dependencies import get_user_service, get_user_view_service
+from webapp.core.services.user import UserFacade
+from webapp.dependencies import get_user_facade
 from webapp.settings import dev_docs
 
 web = FastAPI(title="Web", root_path="/web", **dev_docs)
@@ -13,22 +13,20 @@ web = FastAPI(title="Web", root_path="/web", **dev_docs)
 @web.get("/users/fragment/table", response_class=HTMLResponse)
 async def users_table_fragment(
     request: Request,
-    user_service: UserService = Depends(get_user_service),
-    user_view: UserViewService = Depends(get_user_view_service),
+    user_fx: UserFacade = Depends(get_user_facade),
 ):
-    users = await user_service.uow.user_repo.list()
-    return user_view.render_user_table(request, users)
+    users = await user_fx.crud.uow.user_repo.list()
+    return user_fx.view.render_user_table(request, users)
 
 
 @web.get("/users/fragment/form", response_class=HTMLResponse)
 async def user_form_fragment(
     request: Request,
     user_id: int | None = None,
-    user_service: UserService = Depends(get_user_service),
-    user_view: UserViewService = Depends(get_user_view_service),
+    user_fx: UserFacade = Depends(get_user_facade),
 ):
-    user = await user_service.get(user_id) if user_id else None
-    return user_view.render_user_form(request, user)
+    user = await user_fx.crud.get(user_id) if user_id else None
+    return user_fx.view.render_user_form(request, user)
 
 
 @web.get("/users", response_class=HTMLResponse)
@@ -41,11 +39,10 @@ async def create_user_html(
     request: Request,
     username: str = Form(...),
     email: str = Form(...),
-    user_service: UserService = Depends(get_user_service),
-    user_view: UserViewService = Depends(get_user_view_service),
+    user_fx: UserFacade = Depends(get_user_facade),
 ):
-    user = await user_service.create(UserCreate(username=username, email=email))
-    return user_view.render_user_row(request, user)
+    user = await user_fx.crud.create(UserCreate(username=username, email=email))
+    return user_fx.view.render_user_row(request, user)
 
 
 @web.put("/users/{user_id}", response_class=HTMLResponse)
@@ -54,27 +51,26 @@ async def update_user_html(
     user_id: int,
     username: str = Form(...),
     email: str = Form(...),
-    user_service: UserService = Depends(get_user_service),
-    user_view: UserViewService = Depends(get_user_view_service),
+    user_fx: UserFacade = Depends(get_user_facade),
 ):
-    existing = await user_service.uow.user_repo.get(user_id)
+    existing = await user_fx.crud.uow.user_repo.get(user_id)
     if existing is None:
         raise HTTPException(status_code=404)
-    await user_service.uow.user_repo.update(
+    await user_fx.crud.uow.user_repo.update(
         existing,
         {"username": username, "email": email},
     )
-    updated = await user_service.uow.user_repo.get(user_id)
-    return user_view.render_user_row(request, updated)
+    updated = await user_fx.crud.uow.user_repo.get(user_id)
+    return user_fx.view.render_user_row(request, updated)
 
 
 @web.delete("/users/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_user_html(
     user_id: int,
-    user_service: UserService = Depends(get_user_service),
+    user_fx: UserFacade = Depends(get_user_facade),
 ):
-    orm_user = await user_service.uow.user_repo.get(user_id)
+    orm_user = await user_fx.crud.uow.user_repo.get(user_id)
     if orm_user is None:
         raise HTTPException(status_code=404)
-    await user_service.uow.user_repo.delete(orm_user)
+    await user_fx.crud.uow.user_repo.delete(orm_user)
     return ""
