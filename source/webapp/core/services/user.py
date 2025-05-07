@@ -5,7 +5,7 @@ from webapp.core.models.user import UserCreate, UserRead
 from webapp.core.services.base import HTMX, Service
 
 
-class UserService(Service):
+class UserServiceCRUD(Service):
     async def get(self, user_id: int) -> UserRead | None:
         user = await self.uow.user_repo.get(user_id)
         return UserRead.model_validate(user) if user else None
@@ -15,7 +15,7 @@ class UserService(Service):
         return UserRead.model_validate(user)
 
 
-class UserViewService:
+class UserServiceVIEW:
     def __init__(self):
         self.htmx = HTMX()
 
@@ -42,5 +42,5 @@ class UserViewService:
 
 class UserFacade:
     def __init__(self, uow: UnitOfWork):
-        self.crud = UserService(uow)
-        self.view = UserViewService()
+        self.crud = UserServiceCRUD(uow)
+        self.view = UserServiceVIEW()

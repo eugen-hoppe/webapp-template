@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, status
 from webapp.core.models.user import UserCreate, UserRead
-from webapp.core.services.user import UserService
+from webapp.core.services.user import UserFacade
 from webapp.dependencies import get_user_facade
 
 users_v1 = APIRouter(prefix="/v1")
@@ -13,7 +13,7 @@ users_v1 = APIRouter(prefix="/v1")
 )
 async def get_user(
     user_id: int,
-    user_fx: UserService = Depends(get_user_facade),
+    user_fx: UserFacade = Depends(get_user_facade),
 ):
     return await user_fx.get(user_id)
 
@@ -25,6 +25,6 @@ async def get_user(
 )
 async def create_user(
     user: UserCreate,
-    user_fx: UserService = Depends(get_user_facade),
+    user_fx: UserFacade = Depends(get_user_facade),
 ):
     return await user_fx.create(user)
