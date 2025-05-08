@@ -4,12 +4,7 @@
   <h1>Tables</h1>
   <p class="fs-5 text-muted">User Table</p>
 {% endblock %}
-
 {% block content %}
-{% from "macros/table.html" import render_table %}
-
-<div class="container">
-    {{ render_table(items, columns) }}
-</div>
-
+  {% from "macros/table.html" import render_table %}
+  <div class="container">{{ render_table(items, columns) }}</div>
 {% endblock %}

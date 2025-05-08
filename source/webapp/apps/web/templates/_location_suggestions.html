@@ -1,15 +1,9 @@
 <ul class="list-group">
   {% for loc in locations %}
-    <li
-      class="list-group-item list-group-item-action"
-      hx-get="/web/locations/fragment/select/{{ loc.id }}"
-      hx-trigger="click"
-      hx-swap="none"
-    >
-      {{ loc.post_code }} {{ loc.city }}
-    </li>
+    <li class="list-group-item list-group-item-action"
+        hx-get="/web/locations/fragment/select/{{ loc.id }}"
+        hx-trigger="click"
+        hx-swap="none">{{ loc.post_code }} {{ loc.city }}</li>
   {% endfor %}
-  {% if not locations %}
-    <li class="list-group-item disabled">No matches</li>
-  {% endif %}
+  {% if not locations %}<li class="list-group-item disabled">No matches</li>{% endif %}
 </ul>

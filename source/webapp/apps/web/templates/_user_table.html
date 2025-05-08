@@ -1,13 +1,12 @@
 <table class="table table-hover">
   <thead>
     <tr>
-      {% for c in cols %}
-        <th>{{ c|capitalize }}</th>
-      {% endfor %}
+      {% for c in cols %}<th>{{ c|capitalize }}</th>{% endfor %}
       <th>
-        <button class="btn btn-success btn-sm" hx-get="/web/users/fragment/form" hx-target="#user-form-panel" hx-swap="innerHTML">
-          +
-        </button>
+        <button class="btn btn-success btn-sm"
+                hx-get="/web/users/fragment/form"
+                hx-target="#user-form-panel"
+                hx-swap="innerHTML">+</button>
       </th>
     </tr>
   </thead>

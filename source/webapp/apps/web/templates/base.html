@@ -1,33 +1,27 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}WebApp{% endblock %}</title>
-  <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-</head>
-
-<body class="container">
-
-  <header class="pt-5 pb-2 border-bottom">
-    {% block h1_title %}
-    <h1>WebApp</h1>
-    <p class="fs-5 text-muted">Sub Header Text</p>
-    {% endblock %}
- 
-  </header>
-
-  <main class="pt-5">
-    {% block content %}{% endblock %}
-  </main>
-
-  <footer class="pt-4 my-md-5 pt-md-5 border-top">
-    <p class="fs-5 text-muted">Footer</p>
-  </footer>
-
-  <script src="/static/js/htmx.min.js"></script>  <!-- v.2.04 -->
-  <script src="/static/js/bootstrap.bundle.min.js"></script>
-
-</body>
-
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      {% block title %}WebApp{% endblock %}
+    </title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+  </head>
+  <body class="container">
+    <header class="pt-5 pb-2 border-bottom">
+      {% block h1_title %}
+        <h1>WebApp</h1>
+        <p class="fs-5 text-muted">Sub Header Text</p>
+      {% endblock %}
+    </header>
+    <main class="pt-5">
+      {% block content %}{% endblock %}
+    </main>
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+      <p class="fs-5 text-muted">Footer</p>
+    </footer>
+    <script src="/static/js/htmx.min.js"></script>  {# v2.04 #}
+    <script src="/static/js/bootstrap.bundle.min.js"></script>  {# v5.3.5 #}
+  </body>
 </html>

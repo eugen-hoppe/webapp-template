@@ -1,51 +1,28 @@
-<form
-  {% if user %}
-    hx-put="/web/users/{{ user.id }}"
-    hx-target="#user-{{ user.id }}" hx-swap="outerHTML"
-  {% else %}
-    hx-post="/web/users" hx-target="#user-tbody" hx-swap="beforeend"
-  {% endif %}
-  method="post" novalidate>
+<form {% if user %} hx-put="/web/users/{{ user.id }}" hx-target="#user-{{ user.id }}" hx-swap="outerHTML" {% else %} hx-post="/web/users" hx-target="#user-tbody" hx-swap="beforeend" {% endif %}
+      method="post"
+      novalidate>
   {{ form.csrf_token }}
-
   <div class="mb-3">
     <label class="form-label">{{ form.username.label.text }}</label>
     {{ form.username(class_="form-control") }}
-    {% if form.username.errors %}
-      <div class="text-danger">{{ form.username.errors[0] }}</div>
-    {% endif %}
+    {% if form.username.errors %}<div class="text-danger">{{ form.username.errors[0] }}</div>{% endif %}
   </div>
-
   <div class="mb-3">
     <label class="form-label">{{ form.email.label.text }}</label>
     {{ form.email(class_="form-control") }}
-    {% if form.email.errors %}
-      <div class="text-danger">{{ form.email.errors[0] }}</div>
-    {% endif %}
+    {% if form.email.errors %}<div class="text-danger">{{ form.email.errors[0] }}</div>{% endif %}
   </div>
-
-
-  <input
-    type="text"
-    id="location_search"
-    name="location_search"
-    class="form-control"
-    hx-get="/web/locations/fragment/suggest"
-    hx-trigger="keyup changed delay:30ms"
-    hx-target="#location-suggestions"
-    hx-swap="innerHTML"
-  />
-  <input
-    type="hidden"
-    id="location_id"
-    name="location_id"
-  />
-  <div
-    id="location-suggestions"
-    class="position-absolute w-100"
-    style="z-index:1000;"
-  ></div>
-
-
+  <input type="text"
+         id="location_search"
+         name="location_search"
+         class="form-control"
+         hx-get="/web/locations/fragment/suggest"
+         hx-trigger="keyup changed delay:30ms"
+         hx-target="#location-suggestions"
+         hx-swap="innerHTML" />
+  <input type="hidden" id="location_id" name="location_id" />
+  <div id="location-suggestions"
+       class="position-absolute w-100"
+       style="z-index:1000"></div>
   <button class="btn btn-primary">Save</button>
 </form>

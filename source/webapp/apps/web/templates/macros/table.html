@@ -1,20 +1,16 @@
 {% macro render_table(items, columns, headers=None) -%}
-<table class="table table-hover">
-  <thead>
-    <tr>
-      {%- for col in columns %}
-        <th>{{ (headers[col] if headers and col in headers else col)|capitalize }}</th>
-      {%- endfor %}
-    </tr>
-  </thead>
-  <tbody>
-    {%- for item in items %}
-      <tr id="{{ item.id | default('') }}">
-        {%- for col in columns %}
-          <td>{{ item[col] }}</td>
-        {%- endfor %}
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        {%- for col in columns %}<th>{{ (headers[col] if headers and col in headers else col)|capitalize }}</th>{%- endfor %}
       </tr>
-    {%- endfor %}
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      {%- for item in items %}
+        <tr id="{{ item.id | default('') }}">
+          {%- for col in columns %}<td>{{ item[col] }}</td>{%- endfor %}
+        </tr>
+      {%- endfor %}
+    </tbody>
+  </table>
 {%- endmacro %}

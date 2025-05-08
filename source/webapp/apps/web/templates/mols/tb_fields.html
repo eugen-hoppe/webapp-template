@@ -1,7 +1,4 @@
 {% import "atoms/tb_field.html" as td %}
-
 {% macro tb_fields(item, fields) -%}
-  {% for name in fields %}
-    {{ td.value(item[name]) }}
-  {% endfor %}
+  {% for name in fields %}{{ td.value(item[name]) }}{% endfor %}
 {%- endmacro %}
