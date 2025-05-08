@@ -34,7 +34,7 @@ class UserServiceHTMX:
             context={
                 "request": request,
                 "users": users,
-                "cols": ["id", "username", "email"],
+                "cols": ["id", "username", "email", "location"],
             },
         )
 
@@ -49,7 +49,7 @@ class UserServiceHTMX:
             context={
                 "request": request,
                 "user": user,
-                "cols": ["id", "username", "email"],
+                "cols": ["id", "username", "email", "location"],
             },
         )
 

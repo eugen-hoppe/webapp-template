@@ -12,6 +12,9 @@ class Location(Base):
 
     users: Mapped[list["User"]] = relationship(back_populates="location")
 
+    def __str__(self):
+        return str(self.city)
+
 
 class User(Base):
     __tablename__ = "users"
@@ -34,8 +37,7 @@ class User(Base):
         nullable=False,
     )
     location_id: Mapped[int | None] = mapped_column(
-        ForeignKey("locations.id", ondelete="SET NULL"),
-        nullable=True,
+        ForeignKey("locations.id", ondelete="SET NULL"), nullable=False
     )
     location: Mapped[Location | None] = relationship(
         back_populates="users", lazy="selectin"

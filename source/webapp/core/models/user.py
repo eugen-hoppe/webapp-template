@@ -11,4 +11,4 @@ class UserCreate(BaseORM):
 class UserRead(UserCreate):
     id: int
 
-    location: "LocationRead | None" = None
+    location: LocationRead

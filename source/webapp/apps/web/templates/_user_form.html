@@ -1,6 +1,5 @@
 <form {% if user %} hx-put="/web/users/{{ user.id }}" hx-target="#user-{{ user.id }}" hx-swap="outerHTML" {% else %} hx-post="/web/users" hx-target="#user-tbody" hx-swap="beforeend" {% endif %}
-      method="post"
-      novalidate>
+      method="post">
   {{ form.csrf_token }}
   <div class="mb-3">
     <label class="form-label">{{ form.username.label.text }}</label>
