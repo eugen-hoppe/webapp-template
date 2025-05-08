@@ -125,3 +125,33 @@ async def location_suggestions(
 ):
     results = await loc_fx.crud.search(q)
     return loc_fx.view.render_location_suggestions(request, results)
+
+
+@web.get("/locations/fragment/select/{loc_id}", response_class=HTMLResponse)
+async def select_location(
+    request: Request,
+    loc_id: int,
+    loc_fx: LocationFacade = Depends(get_location_facade),
+):
+    loc = await loc_fx.crud.get(loc_id)
+    if not loc:
+        return HTMLResponse(status_code=404)
+    text_input = (
+        f'<input '
+        f'id="location_search" name="location_search" class="form-control" '
+        f'value="{loc.post_code} {loc.city}" '
+        f'hx-swap-oob="outerHTML">'
+    )
+    hidden_input = (
+        f'<input '
+        f'id="location_id" type="hidden" name="location_id" '
+        f'value="{loc.id}" '
+        f'hx-swap-oob="outerHTML">'
+    )
+    clear_suggestions = (
+        '<div id="location-suggestions" '
+        'hx-swap-oob="outerHTML"></div>'
+    )
+
+    body = "\n".join([text_input, hidden_input, clear_suggestions])
+    return HTMLResponse(content=body)

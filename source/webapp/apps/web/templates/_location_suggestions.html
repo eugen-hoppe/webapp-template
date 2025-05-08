@@ -2,7 +2,9 @@
   {% for loc in locations %}
     <li
       class="list-group-item list-group-item-action"
-      data-loc-id="{{ loc.id }}"
+      hx-get="/web/locations/fragment/select/{{ loc.id }}"
+      hx-trigger="click"
+      hx-swap="none"
     >
       {{ loc.post_code }} {{ loc.city }}
     </li>

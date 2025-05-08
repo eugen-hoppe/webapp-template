@@ -28,31 +28,6 @@
   <script src="/static/js/htmx.min.js"></script>  <!-- v.2.04 -->
   <script src="/static/js/bootstrap.bundle.min.js"></script>
 
-  <script>
-    document.addEventListener('click', evt => {
-      const tag = evt.target;
-
-      if (tag && tag.dataset.locId) {
-        const locId   = tag.dataset.locId;
-        const locText = tag.textContent.trim();
-
-        const form = tag.closest('form');
-        if (!form) return;
-    
-        const hidden = form.querySelector('[name="location_id"]');
-        const search = form.querySelector('[name="location_search"]');
-    
-        if (hidden && search) {
-          hidden.value = locId;
-          search.value = locText;
-        }
-    
-        const box = form.querySelector('#location-suggestions');
-        if (box) box.innerHTML = '';
-      }
-    });
-    </script>
-
 </body>
 
 </html>
